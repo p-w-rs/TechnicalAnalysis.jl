@@ -141,7 +141,7 @@ function CHAIKIN(high::Vector{T}, low::Vector{T}, close::Vector{T}, volume::Vect
 end
 
 # Detrended Price Oscillator (DPO)
-function DPO(data::Vector{T}, window::Int)
+function DPO(data::Vector{T}, window::Int) where {T<:AbstractFloat}
     n = length(data)
     sma = SMA(data, window)
     offset = div(window, 2) + 1
