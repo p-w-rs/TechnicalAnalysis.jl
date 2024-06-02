@@ -1,0 +1,7 @@
+name = "TechI"
+uuid = "89c1805e-7de6-4d5c-a550-370041bb1e4f"
+authors = ["Powers, Joshua <dev@powerslabs.org>"]
+version = "0.1.0"
+
+[deps]
+StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
