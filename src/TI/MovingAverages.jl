@@ -1,5 +1,5 @@
 # Simple Moving Average (SMA)
-function SMA(data::Vector{Float64}, window::Int)
+function SMA(data::Vector{T}, window::Int) where {T<:AbstractFloat}
     n = length(data)
     out = similar(data)
     out[1:window-1] .= NaN
@@ -13,7 +13,7 @@ function SMA(data::Vector{Float64}, window::Int)
 end
 
 # Smoothed Moving Average (SMMA)
-function SMMA(data::Vector{Float64}, window::Int)
+function SMMA(data::Vector{T}, window::Int) where {T<:AbstractFloat}
     out = similar(data)
     out[1:window-1] .= NaN
     out[window] = sum(data[1:window]) / window
@@ -24,7 +24,7 @@ function SMMA(data::Vector{Float64}, window::Int)
 end
 
 # Exponential Moving Average (EMA)
-function EMA(data::Vector{Float64}, window::Int)
+function EMA(data::Vector{T}, window::Int) where {T<:AbstractFloat}
     n = length(data)
     α = 2 / (window + 1)
     out = similar(data)
@@ -36,7 +36,7 @@ function EMA(data::Vector{Float64}, window::Int)
 end
 
 # Weighted Moving Average (WMA)
-function WMA(data::Vector{Float64}, window::Int)
+function WMA(data::Vector{T}, window::Int) where {T<:AbstractFloat}
     n = length(data)
     weights = collect(1:window)
     denom = sum(weights)
@@ -49,7 +49,7 @@ function WMA(data::Vector{Float64}, window::Int)
 end
 
 # Hull Moving Average (HMA)
-function HMA(data::Vector{Float64}, window::Int)
+function HMA(data::Vector{T}, window::Int) where {T<:AbstractFloat}
     sqrt_window = round(Int, sqrt(window))
     wma1 = WMA(data, window)
     wma2 = WMA(wma1, sqrt_window)
@@ -57,7 +57,7 @@ function HMA(data::Vector{Float64}, window::Int)
 end
 
 # Kaufman's Adaptive Moving Average (KAMA)
-function KAMA(data::Vector{Float64}, window::Int; fastend::Float64=2.0, slowend::Float64=30.0)
+function KAMA(data::Vector{T}, window::Int; fastend::T=2.0, slowend::T=30.0) where {T<:AbstractFloat}
     n = length(data)
     out = similar(data)
     out[1] = data[1]
@@ -76,7 +76,7 @@ function KAMA(data::Vector{Float64}, window::Int; fastend::Float64=2.0, slowend:
 end
 
 # Arnaud Legoux Moving Average (ALMA)
-function ALMA(data::Vector{Float64}, window::Int, offset::Float64=0.85, sigma::Float64=6.0)
+function ALMA(data::Vector{T}, window::Int, offset::T=0.85, sigma::T=6.0) where {T<:AbstractFloat}
     n = length(data)
     m = floor(offset * (window - 1))
     s = window / sigma
@@ -96,12 +96,12 @@ function ALMA(data::Vector{Float64}, window::Int, offset::Float64=0.85, sigma::F
 end
 
 # Linear Weighted Moving Average (LWMA)
-function LWMA(data::Vector{Float64}, window::Int)
+function LWMA(data::Vector{T}, window::Int) where {T<:AbstractFloat}
     WMA(data, window)
 end
 
 # Volume Weighted Average Price (VWAP)
-function VWAP(price::Vector{Float64}, volume::Vector{Float64}, window::Int)
+function VWAP(price::Vector{T}, volume::Vector{T}, window::Int) where {T<:AbstractFloat}
     n = length(price)
     out = similar(price)
     out[1:window-1] .= NaN
@@ -114,7 +114,7 @@ function VWAP(price::Vector{Float64}, volume::Vector{Float64}, window::Int)
 end
 
 # Triangular Moving Average (TRIMA)
-function TRIMA(data::Vector{Float64}, window::Int)
+function TRIMA(data::Vector{T}, window::Int) where {T<:AbstractFloat}
     n = length(data)
     out = similar(data)
     sma_window = div(window, 2) + 1

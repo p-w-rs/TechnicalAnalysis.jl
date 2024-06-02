@@ -1,5 +1,5 @@
 # Relative Strength Index (RSI)
-function RSI(data::Vector{Float64}, window::Int)
+function RSI(data::Vector{T}, window::Int) where {T<:AbstractFloat}
     n = length(data)
     gains = zeros(n)
     losses = zeros(n)
@@ -29,7 +29,7 @@ function RSI(data::Vector{Float64}, window::Int)
 end
 
 # Stochastic Oscillator
-function STOCH(high::Vector{Float64}, low::Vector{Float64}, close::Vector{Float64}, window::Int, smooth_window::Int=3)
+function STOCH(high::Vector{T}, low::Vector{T}, close::Vector{T}, window::Int, smooth_window::Int=3) where {T<:AbstractFloat}
     n = length(close)
     out = similar(close)
 
@@ -45,7 +45,7 @@ function STOCH(high::Vector{Float64}, low::Vector{Float64}, close::Vector{Float6
 end
 
 # Moving Average Convergence Divergence (MACD)
-function MACD(data::Vector{Float64}, fast_window::Int, slow_window::Int, signal_window::Int)
+function MACD(data::Vector{T}, fast_window::Int, slow_window::Int, signal_window::Int) where {T<:AbstractFloat}
     fast_ema = EMA(data, fast_window)
     slow_ema = EMA(data, slow_window)
     macd_line = fast_ema - slow_ema
@@ -55,7 +55,7 @@ function MACD(data::Vector{Float64}, fast_window::Int, slow_window::Int, signal_
 end
 
 # Commodity Channel Index (CCI)
-function CCI(high::Vector{Float64}, low::Vector{Float64}, close::Vector{Float64}, window::Int)
+function CCI(high::Vector{T}, low::Vector{T}, close::Vector{T}, window::Int) where {T<:AbstractFloat}
     n = length(close)
     out = similar(close)
     tp = TP(high, low, close)
@@ -71,7 +71,7 @@ function CCI(high::Vector{Float64}, low::Vector{Float64}, close::Vector{Float64}
 end
 
 # Average Directional Index (ADX)
-function ADX(high::Vector{Float64}, low::Vector{Float64}, close::Vector{Float64}, window::Int)
+function ADX(high::Vector{T}, low::Vector{T}, close::Vector{T}, window::Int) where {T<:AbstractFloat}
     n = length(close)
     tr = zeros(n)
     dm_plus = zeros(n)
@@ -98,7 +98,7 @@ function ADX(high::Vector{Float64}, low::Vector{Float64}, close::Vector{Float64}
 end
 
 # Bollinger Bands
-function BBANDS(data::Vector{Float64}, window::Int, num_std::Float64=2.0)
+function BBANDS(data::Vector{T}, window::Int, num_std::T=2.0) where {T<:AbstractFloat}
     sma = SMA(data, window)
     std_dev = zeros(length(data))
 
@@ -112,7 +112,7 @@ function BBANDS(data::Vector{Float64}, window::Int, num_std::Float64=2.0)
 end
 
 # Money Flow Index (MFI)
-function MFI(high::Vector{Float64}, low::Vector{Float64}, close::Vector{Float64}, volume::Vector{Float64}, window::Int)
+function MFI(high::Vector{T}, low::Vector{T}, close::Vector{T}, volume::Vector{T}, window::Int) where {T<:AbstractFloat}
     n = length(close)
     typical_price = (high .+ low .+ close) ./ 3
     money_flow = typical_price .* volume
@@ -133,7 +133,7 @@ function MFI(high::Vector{Float64}, low::Vector{Float64}, close::Vector{Float64}
 end
 
 # Chaikin Oscillator
-function CHAIKIN(high::Vector{Float64}, low::Vector{Float64}, close::Vector{Float64}, volume::Vector{Float64}, fast_window::Int, slow_window::Int)
+function CHAIKIN(high::Vector{T}, low::Vector{T}, close::Vector{T}, volume::Vector{T}, fast_window::Int, slow_window::Int) where {T<:AbstractFloat}
     ad_line = (2 .* close .- (high .+ low)) ./ (high .- low) .* volume
     fast_ema = EMA(ad_line, fast_window)
     slow_ema = EMA(ad_line, slow_window)
@@ -141,7 +141,7 @@ function CHAIKIN(high::Vector{Float64}, low::Vector{Float64}, close::Vector{Floa
 end
 
 # Detrended Price Oscillator (DPO)
-function DPO(data::Vector{Float64}, window::Int)
+function DPO(data::Vector{T}, window::Int)
     n = length(data)
     sma = SMA(data, window)
     offset = div(window, 2) + 1
@@ -156,7 +156,7 @@ function DPO(data::Vector{Float64}, window::Int)
 end
 
 # KDJ Oscillator
-function KDJ(high::Vector{Float64}, low::Vector{Float64}, close::Vector{Float64}, window::Int, smooth_window::Int=3)
+function KDJ(high::Vector{T}, low::Vector{T}, close::Vector{T}, window::Int, smooth_window::Int=3) where {T<:AbstractFloat}
     n = length(close)
     rsv = zeros(n)
 
@@ -173,7 +173,7 @@ function KDJ(high::Vector{Float64}, low::Vector{Float64}, close::Vector{Float64}
 end
 
 # Ichimoku Cloud
-function ICHIMOKU(high::Vector{Float64}, low::Vector{Float64}, conversion_window::Int, base_window::Int, span_b_window::Int, lagging_window::Int)
+function ICHIMOKU(high::Vector{T}, low::Vector{T}, conversion_window::Int, base_window::Int, span_b_window::Int, lagging_window::Int) where {T<:AbstractFloat}
     n = length(high)
     conversion_line = zeros(n)
     base_line = zeros(n)
@@ -204,7 +204,7 @@ function ICHIMOKU(high::Vector{Float64}, low::Vector{Float64}, conversion_window
 end
 
 # Williams %R
-function WILLR(high::Vector{Float64}, low::Vector{Float64}, close::Vector{Float64}, window::Int)
+function WILLR(high::Vector{T}, low::Vector{T}, close::Vector{T}, window::Int) where {T<:AbstractFloat}
     n = length(close)
     out = similar(close)
 
@@ -219,7 +219,7 @@ function WILLR(high::Vector{Float64}, low::Vector{Float64}, close::Vector{Float6
 end
 
 # Ultimate Oscillator
-function ULTOSC(high::Vector{Float64}, low::Vector{Float64}, close::Vector{Float64}, window1::Int, window2::Int, window3::Int)
+function ULTOSC(high::Vector{T}, low::Vector{T}, close::Vector{T}, window1::Int, window2::Int, window3::Int) where {T<:AbstractFloat}
     n = length(close)
     buying_pressure = close .- low
     true_range = max.(high .- low, abs.(high .- lag(close)), abs.(low .- lag(close)))
