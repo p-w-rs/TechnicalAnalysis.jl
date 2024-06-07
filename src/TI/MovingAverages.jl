@@ -122,3 +122,24 @@ function TRIMA(data::Vector{T}, window::Int) where {T<:AbstractFloat}
     out[1:n-sma_window] = SMA(sma_data, sma_window)
     out
 end
+
+# Fibonacci Moving Average (FMA)
+function FMA(data::Vector{T}, window::Int) where {T<:AbstractFloat}
+    n = length(data)
+    fib_ratios = fibonacci(window)
+    fib_sum = sum(fib_ratios)
+    out = similar(data)
+    out[1:window-1] .= NaN
+    @inbounds for i in window:n
+        out[i] = sum(data[i-window+1:i] .* fib_ratios) / fib_sum
+    end
+    out
+end
+
+function fibonacci(n::Int)
+    fib = [1, 1]
+    for i in 3:n
+        push!(fib, fib[i-1] + fib[i-2])
+    end
+    fib
+end
