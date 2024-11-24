@@ -1,9 +1,41 @@
 module TechnicalAnalysis
 
-using PyCall, DataFrames
+using PyCall, DataFrames, Dates
 
-talib = pyimport("talib")
+talib = nothing
+function __init__()
+    try
+        global talib = pyimport("talib")
+    catch e
+        @error """
+        Failed to import TA-Lib. Please ensure it's properly installed:
+            Using Conda:
+            julia> using Conda
+            julia> Conda.add("ta-lib"; channel="conda-forge")
+        """
+        rethrow(e)
+    end
+end
 function_list = Dict{String,Vector{Function}}()
+
+# Unix Time Constants
+const UNIXMIN::Int64 = 60
+const UNIX5MIN = UNIXMIN * 5
+const UNIX15MIN = UNIXMIN * 15
+const UNIX30MIN = UNIXMIN * 30
+const UNIXHOUR = UNIXMIN * 60
+const UNIX2HOUR = UNIXHOUR * 2
+const UNIX6HOUR = UNIXHOUR * 6
+const UNIXDAY = UNIXHOUR * 24
+
+const unix_date_map = Dict([
+    UNIXMIN => Dates.Minute(1), UNIX5MIN => Dates.Minute(5), UNIX15MIN => Dates.Minute(15),
+    UNIX30MIN => Dates.Minute(30), UNIXHOUR => Dates.Hour(1), UNIX2HOUR => Dates.Hour(2),
+    UNIX6HOUR => Dates.Hour(6), UNIXDAY => Dates.Day(1)
+])
+toUnix(dt::DateTime) = div(Int64(datetime2unix(dt) * 1000), 1000)
+toDate(ts::Int64) = unix2datetime(ts)
+export UNIXMIN, UNIX5MIN, UNIX15MIN, UNIX30MIN, UNIXHOUR, UNIX2HOUR, UNIX6HOUR, UNIXDAY, unix_date_map, toUnix, toDate
 
 ### Overlap Studies Functions ###
 include("TaLib/Overlap.jl")

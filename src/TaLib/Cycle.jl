@@ -31,16 +31,6 @@ function HT_TRENDMODE(df; column="close")
     insertcols!(df, length(propertynames(df)) + 1, "ht_trendmode" => ind)
 end
 
-# Unix Time Constants
-const UNIXMIN::Int64 = 60
-const UNIX5MIN = UNIXMIN * 5
-const UNIX15MIN = UNIXMIN * 15
-const UNIX30MIN = UNIXMIN * 30
-const UNIXHOUR = UNIXMIN * 60
-const UNIX2HOUR = UNIXHOUR * 2
-const UNIX6HOUR = UNIXHOUR * 6
-const UNIXDAY = UNIXHOUR * 24
-
 # Calculate cycle indicators using cosine waves shifted to [1, 0, 1]
 function cycleIndicator(unixTime::Int64, cyclePeriod::Int64)
     x = unixTime % cyclePeriod
@@ -79,13 +69,3 @@ function YEAR_CYCLE(df::DataFrame)
     yearCycle = cycleIndicator.(df.time, UNIXDAY * 365)
     insertcols!(df, length(propertynames(df)) + 1, "year_cycle" => yearCycle)
 end
-
-
-
-
-
-
-
-
-
-

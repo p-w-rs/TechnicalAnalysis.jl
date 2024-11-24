@@ -60,6 +60,7 @@ end
 
 # real = MAVP(close, periods, minperiod=2, maxperiod=30, matype=0)
 function MAVP(df; column="close", periods=nothing, minperiod=2, maxperiod=30)
+    periods == nothing && return
     ind = talib.MAVP(df[!, column], periods, minperiod=minperiod, maxperiod=maxperiod)
     insertcols!(df, length(propertynames(df)) + 1, "mavp-$column-$minperiod-$maxperiod" => ind)
 end

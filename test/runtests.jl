@@ -15,7 +15,7 @@ using Dates
         # Create sample data
         n = 60
         df = DataFrame(
-            time = collect(now()-Day(n-1):Day(1):now()),
+            time = toUnix.(collect(now()-Day(n-1):Day(1):now())),
             open = rand(n) .* 100 .+ 50,
             high = rand(n) .* 100 .+ 75,
             low = rand(n) .* 100 .+ 25,
@@ -35,10 +35,12 @@ using Dates
                 for f in functions
                     @test begin
                         try
-                            f(df)
+                            # Create a copy of the DataFrame for each test
+                            test_df = copy(df)
+                            f(test_df)
                             true
                         catch e
-                            @warn "Function failed" function=f exception=e
+                            @warn "Function failed: $(f)" exception=e
                             false
                         end
                     end
