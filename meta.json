@@ -1,6 +1,23 @@
 {
-  "description": "Julia utility library for computing some financial technical indicators",
-  "status": "DONE",
-  "references": null,
-  "tags": ["Algorithmic Trading", "Utility Library", "Julia"]
+    "description": "Julia utility library for computing some financial technical indicators",
+    "status": "DONE",
+    "references":
+    [
+        {
+            "title": "TA-Lib Technical Analysis Library",
+            "url": "https://ta-lib.org",
+            "year": null
+        },
+        {
+            "title": "TA-Lib Python wrapper for TA-Lib",
+            "url": "http://ta-lib.github.io/ta-lib-python/",
+            "year": null
+        }
+    ],
+    "tags":
+    [
+        "Algorithmic Trading",
+        "Utility Library",
+        "Julia"
+    ]
 }

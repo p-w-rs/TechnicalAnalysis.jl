@@ -1,68 +1,89 @@
-# TechI.jl
+# TechnicalAnalysis.jl
 
-TechI.jl is a Julia package for technical analysis indicators including price transforms, moving averages, and oscillators.
+A Julia wrapper for TA-Lib (Technical Analysis Library) that provides a comprehensive collection of technical analysis indicators and pattern recognition tools.
+
+## Features
+
+- Comprehensive implementation of TA-Lib functions
+- DataFrame-based interface
+- Automatic column naming based on function parameters
+- Support for all major technical analysis categories:
+  - Overlap Studies (Moving Averages, Bollinger Bands, etc.)
+  - Momentum Indicators (RSI, MACD, Stochastic, etc.)
+  - Volume Indicators (OBV, etc.)
+  - Volatility Indicators (ATR, etc.)
+  - Price Transform (Average/Median Price, etc.)
+  - Cycle Indicators (Hilbert Transform)
+  - Pattern Recognition (Candlestick Patterns)
+  - Statistic Functions (Linear Regression, Standard Deviation, etc.)
 
 ## Installation
 
 ```julia
 using Pkg
-Pkg.add("TechI")
+Pkg.add("TechnicalAnalysis")
 ```
+
+Note: This package requires TA-Lib to be installed on your system. Installation instructions for TA-Lib can be found [here](https://ta-lib.org/hdr_dw.html).
 
 ## Usage
 
 ```julia
-using TechI
+using TechnicalAnalysis
+using DataFrames
 
-# Calculate Simple Moving Average
-sma_values = SMA(price_data, 20)
+# Create or load your data
+df = DataFrame(
+    open = [...],
+    high = [...],
+    low = [...],
+    close = [...],
+    volume = [...]
+)
 
-# Calculate RSI
-rsi_values = RSI(price_data, 14)
+# Calculate indicators
+SMA(df, period=20)  # Simple Moving Average
+RSI(df, period=14)  # Relative Strength Index
+BBANDS(df, period=20)  # Bollinger Bands
 
-# Calculate MACD
-macd_line, signal_line, histogram = MACD(price_data, 12, 26, 9)
-
-# Calculate Bollinger Bands
-upper_band, middle_band, lower_band = BBANDS(price_data, 20, 2.0)
+# Results are added as new columns to the DataFrame
 ```
 
-## Features
+## Available Functions
 
-### Price Transforms
-- **Typical Price (TP)**: Average of high, low, and close prices
-- **Median Price (MP)**: Average of high and low prices
-- **Weighted Close Price (WCP)**: Weighted average with double emphasis on close price
-- **OHLC Average**: Simple average of open, high, low, and close prices
-- **Volume Weighted Average Price (VWAP)**: Price weighted by volume
-- **Standard Deviation (SD)**: Price volatility measure
-- **Average True Range (ATR)**: Volatility indicator based on price ranges
+### Overlap Studies
+- HMA (Hull Moving Average)
+- BBANDS (Bollinger Bands)
+- DEMA (Double Exponential Moving Average)
+- EMA (Exponential Moving Average)
+- MAMA (MESA Adaptive Moving Average)
+- MAVP (Moving Average with Variable Period)
+- And many more...
 
-### Moving Averages
-- **Simple Moving Average (SMA)**: Basic arithmetic mean
-- **Smoothed Moving Average (SMMA)**: Smoothed version of SMA
-- **Exponential Moving Average (EMA)**: Weighted average with more emphasis on recent prices
-- **Weighted Moving Average (WMA)**: Linear weighted average
-- **Hull Moving Average (HMA)**: Responsive moving average that reduces lag
-- **Kaufman's Adaptive Moving Average (KAMA)**: Adapts to market volatility
-- **Arnaud Legoux Moving Average (ALMA)**: Gaussian weighted moving average
-- **Linear Weighted Moving Average (LWMA)**: Alternative weighted average
-- **Triangular Moving Average (TRIMA)**: Double-smoothed moving average
-- **Fibonacci Moving Average (FMA)**: Moving average weighted by Fibonacci sequence
+### Momentum Indicators
+- ADX (Average Directional Movement Index)
+- MACD (Moving Average Convergence/Divergence)
+- RSI (Relative Strength Index)
+- STOCH (Stochastic)
+- And many more...
 
-### Oscillators
-- **Relative Strength Index (RSI)**: Momentum indicator measuring speed and magnitude of price changes
-- **Stochastic Oscillator (STOCH)**: Compares closing price to price range
-- **MACD**: Trend-following momentum indicator
-- **Commodity Channel Index (CCI)**: Measures current price level relative to average price
-- **Average Directional Index (ADX)**: Trend strength indicator
-- **Bollinger Bands (BBANDS)**: Volatility-based envelope indicator
-- **Money Flow Index (MFI)**: Volume-weighted RSI
-- **Chaikin Oscillator**: Momentum indicator based on accumulation-distribution
-- **KDJ**: Modified stochastic oscillator
-- **Ichimoku Cloud**: Multiple component trend indicator
-- **Williams %R**: Momentum indicator showing overbought/oversold levels
-- **Ultimate Oscillator**: Multi-timeframe momentum indicator
+### Volume Indicators
+- AD (Chaikin A/D Line)
+- ADOSC (Chaikin A/D Oscillator)
+- OBV (On Balance Volume)
+
+### Volatility Indicators
+- ATR (Average True Range)
+- NATR (Normalized Average True Range)
+- TRANGE (True Range)
+
+### Pattern Recognition
+- Various candlestick patterns (Doji, Hammer, Engulfing, etc.)
+
+### And More
+- Price Transforms
+- Cycle Indicators
+- Statistical Functions
 
 ## Contributing
 
