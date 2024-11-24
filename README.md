@@ -46,7 +46,7 @@ SMA(df, period=20)  # Simple Moving Average
 RSI(df, period=14)  # Relative Strength Index
 BBANDS(df, period=20)  # Bollinger Bands
 
-# Results are added as new columns to the DataFrame
+# Results are added as new columns to the DataFrame (i.e. treat every function as a ! function)
 ```
 
 ## Available Functions
