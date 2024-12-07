@@ -4,6 +4,7 @@
 .LSOverride
 Icon
 ._*
+.*/
 
 # Thumbnails
 ._*
@@ -97,6 +98,10 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+.venv/
+.mypy_cache/
+.ropeproject/
+.python-version
 
 # Julia projects
 .julia/
